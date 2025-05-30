@@ -5,6 +5,7 @@ import { AuthorsModule } from './authors/authors.module';
 import { BooksModule } from './books/books.module';
 import { CategoryModule } from './category/category.module';
 import { BookReviewModule } from './book-review/book-review.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BookReviewModule } from './book-review/book-review.module';
     BooksModule,
     CategoryModule,
     BookReviewModule,
+    DatabaseModule,
   ],
   controllers: [],
   providers: [],
