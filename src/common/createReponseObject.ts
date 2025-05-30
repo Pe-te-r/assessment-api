@@ -2,13 +2,18 @@ import { ApiResponse } from './type';
 
 export function apiSuccessResponse<T>(
   message: string,
-  data: T,
+  data?: T,
 ): ApiResponse<T> {
-  return {
+  const response: ApiResponse<T> = {
     status: 'success',
     message,
-    data,
   };
+
+  if (data !== undefined) {
+    response.data = data;
+  }
+
+  return response;
 }
 
 export function apiErrorResponse<T>(message: string, data?: T): ApiResponse<T> {

@@ -4,8 +4,10 @@
 GET {{url}}/users
 ###
 POST {{url}}/users
-Content-Type: application/application/json
+Content-Type: application/json
 
 {
-  
+  "name": "Peter Mburu",
+  "email": "peter@example.com",
+  "password": "Phantom@8526"
 }

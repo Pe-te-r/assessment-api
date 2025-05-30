@@ -11,9 +11,11 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const newUser = this.userRepository.create(createUserDto);
+    const savedUser = await this.userRepository.save(newUser);
+
+    return apiSuccessResponse<null>(`User with id ${savedUser.id}`);
   }
 
   async findAll() {

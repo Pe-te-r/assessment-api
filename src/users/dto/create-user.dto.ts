@@ -13,7 +13,7 @@ export class CreateUserDto {
   @MinLength(2)
   @MaxLength(50)
   @Matches(/^[a-zA-Z0-9 ]+$/, {
-    message: 'Name can only contain alphanumeric characters and spaces',
+    message: 'username can only contain alphanumeric characters and spaces',
   })
   name: string;
 
