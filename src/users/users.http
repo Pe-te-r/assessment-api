@@ -2,3 +2,10 @@
 
 ###
 GET {{url}}/users
+###
+POST {{url}}/users
+Content-Type: application/application/json
+
+{
+  
+}
