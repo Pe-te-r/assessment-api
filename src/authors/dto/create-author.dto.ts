@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
   IsDate,
-  ValidateIf,
+  MaxDate,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -23,6 +23,6 @@ export class CreateAuthorDto {
   @IsOptional()
   @Type(() => Date)
   @IsDate({ message: 'birthDate must be a valid date' })
-  @ValidateIf((o) => o.birthDate <= new Date())
+  @MaxDate(new Date(), { message: 'birthDate cannot be in the future' })
   birthDate?: Date;
 }

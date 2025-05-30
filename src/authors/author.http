@@ -7,8 +7,17 @@ POST {{url}}/authors
 Content-Type: application/json
 
 {
-  "name":"John Kiriamiti",
-  "bio":"John Kiriamiti was ones a criminal who servered his time in prison, for around 14years. Now he is a changed man",
-  "birthData"
+  "name":"Ngũgĩ wa Thiong'o",
+  "bio":"One of Africa’s most celebrated writers, known for his novels, plays, and essays, often writing in Gikuyu and English.",
+  "birthDate":"1980-12-12"
 }
 
+###
+PATCH  {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2
+Content-Type: application/json
+
+{
+  "birthDate":"1976-12-12"
+}
+###
+DELETE {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2
