@@ -21,7 +21,7 @@ export class Book {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ precision: 4 })
+  @Column()
   publicationYear: number;
 
   @Column({ type: 'bool', default: true })
