@@ -11,6 +11,15 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+  // custom method for cheking if user exits based on id
+  async findUserOrFail(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto) {
     const newUser = this.userRepository.create(createUserDto);
     const savedUser = await this.userRepository.save(newUser);
@@ -26,16 +35,20 @@ export class UsersService {
     return apiSuccessResponse('Users fetched successfully', users);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.findUserOrFail(id);
+    return apiSuccessResponse('User fetched successfully', user);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    console.log(updateUserDto);
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    await this.findUserOrFail(id);
+    await this.userRepository.update(id, updateUserDto);
+    return apiSuccessResponse(`User with ${id} updated successfully`);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    const user = await this.findUserOrFail(id);
+    await this.userRepository.remove(user);
+    return apiSuccessResponse<null>(`User with id ${id} removed`);
   }
 }

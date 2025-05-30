@@ -3,6 +3,8 @@
 ###
 GET {{url}}/users
 ###
+GET {{url}}/users/5cafb13c-5d17-4651-8f42-a765341a5d24
+###
 POST {{url}}/users
 Content-Type: application/json
 
@@ -11,3 +13,16 @@ Content-Type: application/json
   "email": "peter@example.com",
   "password": "Phantom@8526"
 }
+
+###
+PATCH  {{url}}/users/5cafb13c-5d17-4651-8f42-a765341a5d24
+Content-Type: application/json
+
+{
+  "name": "Peter Maina",
+  "email": "peter@example.com",
+  "password": "Phantom@8526"
+}
+
+###
+DELETE  {{url}}/users/5cafb13c-5d17-4651-8f42-a765341a5d24
