@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Book } from './entities/book.entity';
+import { Repository } from 'typeorm';
+import { apiSuccessResponse } from 'src/common/createReponseObject'; // Optional, if you have it
 
 @Injectable()
 export class BooksService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor(
+    @InjectRepository(Book) private bookRepository: Repository<Book>,
+  ) {}
+
+  // find book by id or throw error
+  async findBookOrFail(id: string): Promise<Book> {
+    const book = await this.bookRepository.findOne({ where: { id } });
+    if (!book) {
+      throw new NotFoundException(`Book with id ${id} not found`);
+    }
+    return book;
   }
 
-  findAll() {
-    return `This action returns all books`;
+  async create(createBookDto: CreateBookDto) {
+    const newBook = this.bookRepository.create(createBookDto);
+    const savedBook = await this.bookRepository.save(newBook);
+    return apiSuccessResponse<null>(`Book with id ${savedBook.id} created`);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findAll() {
+    const books = await this.bookRepository.find();
+    if (books.length === 0) {
+      throw new NotFoundException('No books found');
+    }
+    return apiSuccessResponse('Books fetched successfully', books);
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async findOne(id: string) {
+    const book = await this.findBookOrFail(id);
+    return apiSuccessResponse('Book fetched successfully', book);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async update(id: string, updateBookDto: UpdateBookDto) {
+    const book = await this.findBookOrFail(id);
+    Object.assign(book, updateBookDto);
+    const updatedBook = await this.bookRepository.save(book);
+    return apiSuccessResponse('Book updated successfully', updatedBook);
+  }
+
+  async remove(id: string) {
+    const book = await this.findBookOrFail(id);
+    await this.bookRepository.remove(book);
+    return apiSuccessResponse<null>(`Book with id ${id} removed`);
   }
 }

@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Author } from './entities/author.entity';
+import { apiSuccessResponse } from 'src/common/createReponseObject'; // if you have it
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(
+    @InjectRepository(Author) private authorRepository: Repository<Author>,
+  ) {}
+
+  async findAuthorOrFail(id: string): Promise<Author> {
+    const author = await this.authorRepository.findOne({ where: { id } });
+    if (!author) {
+      throw new NotFoundException(`Author with id ${id} not found`);
+    }
+    return author;
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  async create(createAuthorDto: CreateAuthorDto) {
+    const newAuthor = this.authorRepository.create(createAuthorDto);
+    const savedAuthor = await this.authorRepository.save(newAuthor);
+    return apiSuccessResponse<null>(`Author with id ${savedAuthor.id} created`);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findAll() {
+    const authors = await this.authorRepository.find();
+    if (authors.length === 0) {
+      throw new NotFoundException('No authors found');
+    }
+    return apiSuccessResponse('Authors fetched successfully', authors);
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
+  async findOne(id: string) {
+    const author = await this.findAuthorOrFail(id);
+    return apiSuccessResponse('Author fetched successfully', author);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  async update(id: string, updateAuthorDto: UpdateAuthorDto) {
+    const author = await this.findAuthorOrFail(id);
+    Object.assign(author, updateAuthorDto);
+    const updatedAuthor = await this.authorRepository.save(author);
+    return apiSuccessResponse('Author updated successfully', updatedAuthor);
+  }
+
+  async remove(id: string) {
+    const author = await this.findAuthorOrFail(id);
+    await this.authorRepository.remove(author);
+    return apiSuccessResponse<null>(`Author with id ${id} removed`);
   }
 }

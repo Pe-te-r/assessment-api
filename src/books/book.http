@@ -1,0 +1,12 @@
+@url=http:localhost:3000
+
+###
+GET  {{url}}/books
+
+###
+POST {{url}}/books
+Content-Type: application/json
+
+{
+  "title"
+}
