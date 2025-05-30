@@ -1,0 +1,14 @@
+@url=http://localhost:3000
+
+###
+GET {{url}}/authors
+###
+POST {{url}}/authors
+Content-Type: application/json
+
+{
+  "name":"John Kiriamiti",
+  "bio":"John Kiriamiti was ones a criminal who servered his time in prison, for around 14years. Now he is a changed man",
+  "birthData"
+}
+
