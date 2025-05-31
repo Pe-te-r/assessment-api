@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -33,5 +34,6 @@ export class Profile {
 
   // relationships
   @OneToOne(() => User, (user) => user.profile)
+  @JoinColumn()
   owner: User;
 }

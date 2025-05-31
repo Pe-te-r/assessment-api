@@ -1,0 +1,27 @@
+@url=http://localhost:3000
+
+###
+GET {{url}}/profiles
+###
+GET {{url}}/profiles/6a74b407-eed4-4e2f-a027-2e89e3a742e1
+
+###
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+  "bio":"Books lover",
+  "location":"kutus",
+  "owner":"37fb3a42-da76-4c71-8c84-fdb62ebd8960"
+}
+
+###
+PATCH  {{url}}/profiles/6a74b407-eed4-4e2f-a027-2e89e3a742e1
+Content-Type: application/json
+
+{
+  "location":"nairobi"
+}
+
+###
+DELETE {{url}}/profiles/6a74b407-eed4-4e2f-a027-2e89e3a742e1
