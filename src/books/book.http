@@ -2,11 +2,27 @@
 
 ###
 GET  {{url}}/books
+###
+GET  {{url}}/books/c9cad6c8-2781-4fca-b6db-fd8da1a15408
 
 ###
 POST {{url}}/books
 Content-Type: application/json
 
 {
-  "title"
+  "title":"My life in prison",
+  "description":"The book is about personal life related to John Kiriamiti",
+  "publicationYear":1980,
+  "author":"70cb0242-4700-45b9-a188-eae9aaaecfe2"
 }
+
+### 
+PATCH {{url}}/books/c9cad6c8-2781-4fca-b6db-fd8da1a15408
+Content-Type: application/json
+
+{
+  "publicationYear":1981
+}
+
+###
+DELETE {{url}}/books/c9cad6c8-2781-4fca-b6db-fd8da1a15408

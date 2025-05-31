@@ -5,6 +5,7 @@ import {
   IsInt,
   Min,
   Max,
+  IsUUID,
 } from 'class-validator';
 
 export class CreateBookDto {
@@ -22,4 +23,7 @@ export class CreateBookDto {
   @Min(1000)
   @Max(new Date().getFullYear())
   publicationYear: number;
+
+  @IsUUID()
+  author: string;
 }

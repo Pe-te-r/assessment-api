@@ -3,15 +3,15 @@
 ###
 GET {{url}}/authors
 ###
-GET  {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2/books
+GET  {{url}}/authors/70cb0242-4700-45b9-a188-eae9aaaecfe2/books
 
 ###
 POST {{url}}/authors
 Content-Type: application/json
 
 {
-  "name":"Ngũgĩ wa Thiong'o",
-  "bio":"One of Africa’s most celebrated writers, known for his novels, plays, and essays, often writing in Gikuyu and English.",
+  "name":"John Kiriamiti",
+  "bio":"One of Africa’s most wanted criminal in the 80s. Later he was arrested for 20yrs where he ended up writing books in prison.",
   "birthDate":"1980-12-12"
 }
 
@@ -20,7 +20,7 @@ PATCH  {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2
 Content-Type: application/json
 
 {
-  "birthDate":"1976-12-12"
+  "birthDate":"1977-12-12"
 }
 ###
 DELETE {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2

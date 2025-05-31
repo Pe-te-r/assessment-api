@@ -5,11 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { apiSuccessResponse } from 'src/common/createReponseObject'; // Optional, if you have it
+import { Author } from 'src/authors/entities/author.entity';
 
 @Injectable()
 export class BooksService {
   constructor(
     @InjectRepository(Book) private bookRepository: Repository<Book>,
+    @InjectRepository(Author) private authorRepository: Repository<Author>,
   ) {}
 
   // find book by id or throw error
@@ -22,7 +24,15 @@ export class BooksService {
   }
 
   async create(createBookDto: CreateBookDto) {
-    const newBook = this.bookRepository.create(createBookDto);
+    const { author: authorId, ...bookData } = createBookDto;
+    const author = await this.authorRepository.findOneBy({ id: authorId });
+    if (!author) {
+      throw new NotFoundException(`Author with id ${authorId} not found`);
+    }
+    const newBook = this.bookRepository.create({
+      ...bookData,
+      bookOwner: author,
+    });
     const savedBook = await this.bookRepository.save(newBook);
     return apiSuccessResponse<null>(`Book with id ${savedBook.id} created`);
   }
