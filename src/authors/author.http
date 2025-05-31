@@ -3,6 +3,9 @@
 ###
 GET {{url}}/authors
 ###
+GET  {{url}}/authors/97a9c6be-02f7-427f-8328-45b749afafd2/books
+
+###
 POST {{url}}/authors
 Content-Type: application/json
 

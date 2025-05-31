@@ -27,7 +27,13 @@ export class AuthorsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log(id);
+    console.log('here');
     return this.authorsService.findOne(id);
+  }
+  @Get(':id/books')
+  findAuthorsBook(@Param('id') id: string) {
+    return this.authorsService.findBooks(id);
   }
 
   @Patch(':id')

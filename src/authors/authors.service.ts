@@ -4,7 +4,7 @@ import { UpdateAuthorDto } from './dto/update-author.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Author } from './entities/author.entity';
-import { apiSuccessResponse } from 'src/common/createReponseObject'; // if you have it
+import { apiSuccessResponse } from 'src/common/createReponseObject';
 
 @Injectable()
 export class AuthorsService {
@@ -12,7 +12,7 @@ export class AuthorsService {
     @InjectRepository(Author) private authorRepository: Repository<Author>,
   ) {}
 
-  async findAuthorOrFail(id: string): Promise<Author> {
+  private async findAuthorOrFail(id: string): Promise<Author> {
     const author = await this.authorRepository.findOne({ where: { id } });
     if (!author) {
       throw new NotFoundException(`Author with id ${id} not found`);
@@ -31,12 +31,12 @@ export class AuthorsService {
     if (authors.length === 0) {
       throw new NotFoundException('No authors found');
     }
-    return apiSuccessResponse('Authors fetched successfully', authors);
+    return apiSuccessResponse('All Authors retrived successfully', authors);
   }
 
   async findOne(id: string) {
     const author = await this.findAuthorOrFail(id);
-    return apiSuccessResponse('Author fetched successfully', author);
+    return apiSuccessResponse('Author fetched successfully here', author);
   }
 
   async update(id: string, updateAuthorDto: UpdateAuthorDto) {
@@ -44,6 +44,29 @@ export class AuthorsService {
     Object.assign(author, updateAuthorDto);
     const updatedAuthor = await this.authorRepository.save(author);
     return apiSuccessResponse('Author updated successfully', updatedAuthor);
+  }
+
+  async findBooks(id: string) {
+    try {
+      const authorWithBooks = await this.authorRepository.findOne({
+        where: { id },
+        relations: {
+          writtenBooks: true,
+        },
+      });
+
+      if (!authorWithBooks) {
+        throw new NotFoundException(`Author with id ${id} not found`);
+      }
+
+      return apiSuccessResponse(
+        `Author with id ${id} has books`,
+        authorWithBooks,
+      );
+    } catch (error) {
+      console.error('Error in findBooks:', error);
+      throw error;
+    }
   }
 
   async remove(id: string) {
