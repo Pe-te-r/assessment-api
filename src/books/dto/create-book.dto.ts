@@ -26,4 +26,7 @@ export class CreateBookDto {
 
   @IsUUID()
   author: string;
+
+  @IsUUID()
+  category: string;
 }

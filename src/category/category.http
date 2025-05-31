@@ -1,0 +1,13 @@
+@url = http://localhost:3000
+
+###
+GET  {{url}}/category
+
+###
+POST {{url}}/category
+Content-Type: application/json
+
+{
+ "name":"crime-related",
+ "description":"This are crime related books"
+}

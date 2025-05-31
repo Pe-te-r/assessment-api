@@ -12,10 +12,11 @@ POST {{url}}/books
 Content-Type: application/json
 
 {
-  "title":"My life in prison",
-  "description":"The book is about personal life related to John Kiriamiti",
-  "publicationYear":1980,
-  "author":"70cb0242-4700-45b9-a188-eae9aaaecfe2"
+  "title":"My in crime",
+  "description":"The book is about personal life related to John Kiriamiti before he went to prison",
+  "publicationYear":1985,
+  "author":"70cb0242-4700-45b9-a188-eae9aaaecfe2",
+  "category":"9f7b6d33-e217-4ff2-b75f-7dfb69996b13"
 }
 
 ### 

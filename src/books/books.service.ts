@@ -6,12 +6,17 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { apiSuccessResponse } from 'src/common/createReponseObject'; // Optional, if you have it
 import { Author } from 'src/authors/entities/author.entity';
+import { Category } from 'src/category/entities/category.entity';
 
 @Injectable()
 export class BooksService {
   constructor(
-    @InjectRepository(Book) private bookRepository: Repository<Book>,
-    @InjectRepository(Author) private authorRepository: Repository<Author>,
+    @InjectRepository(Book)
+    private bookRepository: Repository<Book>,
+    @InjectRepository(Author)
+    private authorRepository: Repository<Author>,
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
   ) {}
 
   // find book by id or throw error
@@ -24,16 +29,35 @@ export class BooksService {
   }
 
   async create(createBookDto: CreateBookDto) {
-    const { author: authorId, ...bookData } = createBookDto;
+    const {
+      author: authorId,
+      category: categoryId,
+      ...bookData
+    } = createBookDto;
+
+    // Check if the author exists
     const author = await this.authorRepository.findOneBy({ id: authorId });
     if (!author) {
       throw new NotFoundException(`Author with id ${authorId} not found`);
     }
+
+    // Check if the category exists
+    const category = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) {
+      throw new NotFoundException(`Category with id ${categoryId} not found`);
+    }
+
+    // Create the new book and assign relationships
     const newBook = this.bookRepository.create({
       ...bookData,
       bookOwner: author,
+      categories: [category], // add category here
     });
+
     const savedBook = await this.bookRepository.save(newBook);
+
     return apiSuccessResponse<null>(`Book with id ${savedBook.id} created`);
   }
 
