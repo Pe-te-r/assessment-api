@@ -62,4 +62,15 @@ export class BooksService {
     await this.bookRepository.remove(book);
     return apiSuccessResponse<null>(`Book with id ${id} removed`);
   }
+
+  async findReviews(id: string) {
+    const bookFound = await this.bookRepository.findOne({
+      where: { id },
+      relations: { reviews: true },
+    });
+    if (!bookFound) {
+      throw new NotFoundException(`book with id ${id} not found`);
+    }
+    return apiSuccessResponse('Book details retrived', bookFound);
+  }
 }

@@ -29,6 +29,10 @@ export class BooksController {
   findOne(@Param('id') id: string) {
     return this.booksService.findOne(id);
   }
+  @Get(':id/reviews')
+  findReviews(@Param('id') id: string) {
+    return this.booksService.findReviews(id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
