@@ -3,6 +3,8 @@
 ###
 GET  {{url}}/books
 ###
+GET  {{url}}/books/search?catgory=9f7b6d33-e217-4ff2-b75f-7dfb69996b13
+###
 GET  {{url}}/books/c9cad6c8-2781-4fca-b6db-fd8da1a15408
 ###
 GET  {{url}}/books/c9cad6c8-2781-4fca-b6db-fd8da1a15408/reviews

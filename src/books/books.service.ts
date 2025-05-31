@@ -97,4 +97,41 @@ export class BooksService {
     }
     return apiSuccessResponse('Book details retrived', bookFound);
   }
+
+  async searchBook(filters: {
+    title?: string;
+    authorId?: string;
+    categoryId?: string;
+  }) {
+    const query = this.bookRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect('book.bookOwner', 'author')
+      .leftJoinAndSelect('book.categories', 'category');
+
+    if (filters.title) {
+      query.andWhere('LOWER(book.title) LIKE LOWER(:title)', {
+        title: `%${filters.title}%`,
+      });
+    }
+
+    if (filters.authorId) {
+      query.andWhere('author.id = :authorId', { authorId: filters.authorId });
+    }
+
+    if (filters.categoryId) {
+      query.andWhere('category.id = :categoryId', {
+        categoryId: filters.categoryId,
+      });
+    }
+
+    const results = await query.getMany();
+
+    if (results.length === 0) {
+      throw new NotFoundException(
+        'No books found matching the search criteria',
+      );
+    }
+
+    return apiSuccessResponse('Books found', results);
+  }
 }
