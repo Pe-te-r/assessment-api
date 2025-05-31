@@ -11,7 +11,7 @@ import { BookReviewService } from './book-review.service';
 import { CreateBookReviewDto } from './dto/create-book-review.dto';
 import { UpdateBookReviewDto } from './dto/update-book-review.dto';
 
-@Controller('book-review')
+@Controller('book_reviews')
 export class BookReviewController {
   constructor(private readonly bookReviewService: BookReviewService) {}
 
@@ -27,7 +27,7 @@ export class BookReviewController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bookReviewService.findOne(+id);
+    return this.bookReviewService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class BookReviewController {
     @Param('id') id: string,
     @Body() updateBookReviewDto: UpdateBookReviewDto,
   ) {
-    return this.bookReviewService.update(+id, updateBookReviewDto);
+    return this.bookReviewService.update(id, updateBookReviewDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bookReviewService.remove(+id);
+    return this.bookReviewService.remove(id);
   }
 }

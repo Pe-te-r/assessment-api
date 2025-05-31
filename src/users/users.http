@@ -9,9 +9,9 @@ POST {{url}}/users
 Content-Type: application/json
 
 {
-  "name": "Peter Mburu",
-  "email": "peter@example.com",
-  "password": "Phantom@8526"
+  "name": "Shakirah",
+  "email": "shakirah@example.com",
+  "password": "Shakirah@8526"
 }
 
 ###

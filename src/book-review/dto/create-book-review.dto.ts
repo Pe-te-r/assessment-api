@@ -5,6 +5,7 @@ import {
   IsInt,
   Min,
   Max,
+  IsUUID,
 } from 'class-validator';
 
 export class CreateBookReviewDto {
@@ -17,4 +18,10 @@ export class CreateBookReviewDto {
   @Min(1)
   @Max(5)
   rating: number;
+
+  @IsUUID()
+  reviewedBy: string;
+
+  @IsUUID()
+  bookReview: string;
 }

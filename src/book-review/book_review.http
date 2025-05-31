@@ -1,0 +1,27 @@
+@url=http://localhost:3000
+
+GET {{url}}/book_reviews
+
+###
+GET {{url}}/book_reviews/841615de-32a0-4031-b566-5497b75fe31b
+
+###
+POST {{url}}/book_reviews
+Content-Type: application/json
+
+{
+ "content":"This book should be converted into movies, very intersting book.",
+ "rating":4,
+ "reviewedBy":"5cafb13c-5d17-4651-8f42-a765341a5d24",
+ "bookReview":"c9cad6c8-2781-4fca-b6db-fd8da1a15408"
+}
+###
+PATCH {{url}}/book_reviews/841615de-32a0-4031-b566-5497b75fe31b
+Content-Type: application/json
+
+{
+ "rating":5
+}
+
+###
+DELETE  {{url}}/book_reviews/841615de-32a0-4031-b566-5497b75fe31b
