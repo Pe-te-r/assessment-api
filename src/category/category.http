@@ -2,6 +2,10 @@
 
 ###
 GET  {{url}}/category
+###
+GET  {{url}}/category/9f7b6d33-e217-4ff2-b75f-7dfb69996b13
+###
+GET  {{url}}/category/9f7b6d33-e217-4ff2-b75f-7dfb69996b13/books
 
 ###
 POST {{url}}/category

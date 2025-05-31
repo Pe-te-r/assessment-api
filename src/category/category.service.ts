@@ -5,6 +5,7 @@ import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { apiSuccessResponse } from 'src/common/createReponseObject'; // Ensure this path is correct
+import { ApiResponse } from 'src/common/type';
 
 @Injectable()
 export class CategoryService {
@@ -13,14 +14,19 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  private async findCategoryOrFail(id: string): Promise<Category> {
+  private async findCategoryOrFail(
+    id: string,
+    books_: boolean = false,
+  ): Promise<Category> {
     const category = await this.categoryRepository.findOne({
       where: { id },
-      relations: ['books'],
+      relations: books_ ? ['books'] : [],
     });
+
     if (!category) {
       throw new NotFoundException(`Category with id ${id} not found`);
     }
+
     return category;
   }
 
@@ -47,8 +53,11 @@ export class CategoryService {
     );
   }
 
-  async findOne(id: string) {
-    const category = await this.findCategoryOrFail(id);
+  async findOne(
+    id: string,
+    books: boolean = false,
+  ): Promise<ApiResponse<Category>> {
+    const category = await this.findCategoryOrFail(id, books);
     return apiSuccessResponse(
       `Category with id ${id} fetched successfully`,
       category,
